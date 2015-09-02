@@ -129,19 +129,19 @@ public class MapsActivity extends FragmentActivity {
 
     private int manageMarkerIcon(String markerIcon) {
         if (markerIcon.equals("icon1"))
-            return R.drawable.currentlocation_icon;
+            return R.drawable.icon1;
         else if (markerIcon.equals("icon2"))
-            return R.drawable.currentlocation_icon;
+            return R.drawable.icon2;
         else if (markerIcon.equals("icon3"))
-            return R.drawable.currentlocation_icon;
+            return R.drawable.icon3;
         else if (markerIcon.equals("icon4"))
-            return R.drawable.currentlocation_icon;
+            return R.drawable.icon4;
         else if (markerIcon.equals("icon5"))
-            return R.drawable.currentlocation_icon;
+            return R.drawable.icon5;
         else if (markerIcon.equals("icon6"))
-            return R.drawable.currentlocation_icon;
+            return R.drawable.icon6;
         else if (markerIcon.equals("icon7"))
-            return R.drawable.currentlocation_icon;
+            return R.drawable.icon7;
         else
 //            return R.drawable.icondefault;
             return R.drawable.currentlocation_icon;
