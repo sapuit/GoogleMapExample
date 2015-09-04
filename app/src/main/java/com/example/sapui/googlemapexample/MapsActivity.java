@@ -1,21 +1,31 @@
 package com.example.sapui.googlemapexample;
 
+import android.location.Address;
+import android.location.Geocoder;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.view.inputmethod.InputMethod;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.GoogleMapOptions;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
+import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 public class MapsActivity extends FragmentActivity {
 
@@ -32,8 +42,6 @@ public class MapsActivity extends FragmentActivity {
         setUpMapIfNeeded();
 
         plotMarkers(mMyMarkersArray);
-
-
     }
 
     @Override
@@ -87,6 +95,9 @@ public class MapsActivity extends FragmentActivity {
 //                        .visible(true)
 //                        .alpha(0.8f)
 //        );
+
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(33.7266622, -87.1469829), 1.0f));
+
         mMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
             @Override
             public boolean onMarkerClick(Marker marker) {
@@ -147,6 +158,33 @@ public class MapsActivity extends FragmentActivity {
             return R.drawable.currentlocation_icon;
     }
 
+    public void geoLocate(View v) throws IOException {
+        hideSoftKeyboard(v);
+
+        EditText et = (EditText) findViewById(R.id.editText1);
+        String locate = et.getText().toString();
+
+        Geocoder gc = new Geocoder(this);
+        List<Address> list = gc.getFromLocationName(locate, 1);
+        Address add = list.get(0);
+        String locality = add.getLocality();
+
+        double lat = add.getLatitude();
+        double lng = add.getLongitude();
+        gotoLocation(lat,lng, 10f);
+
+    }
+
+    private void gotoLocation(double lat, double lng, float zoom) {
+        mMap.moveCamera(CameraUpdateFactory
+                .newLatLngZoom(new LatLng(lat, lng), zoom));
+    }
+
+    private void hideSoftKeyboard(View v) {
+
+        InputMethodManager imm= (InputMethodManager)getSystemService(INPUT_METHOD_SERVICE);
+        imm.hideSoftInputFromWindow(v.getWindowToken(),0);
+    }
 
     public class MarkerInfoWindowAdapter implements GoogleMap.InfoWindowAdapter {
         public MarkerInfoWindowAdapter() {
